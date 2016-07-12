@@ -40,7 +40,7 @@
   "post-processors": [{
     "type": "vagrant",
     "compression_level": "{{user `compression_level`}}",
-    "output": "fedora-24-workstation-x86_64.box"
+    "output": "fedora-workstation-24-x86_64.box"
   }],
   "variables": {
     "compression_level": "6",
