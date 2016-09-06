@@ -1,4 +1,19 @@
 {
+  "variables": {
+    "version": "0.0.1",
+    "box_organization": "tmtowtdi",
+    "box_name": "fedora-workstation-24-x86_64",
+    "s3bucket": "tmtowtdi-repo",
+    "aws_access_key_id": "AKIAIEXRP53PIBVPSXGQ",
+    "aws_secret_access_key": "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",
+    "compression_level": "6",
+    "cpus": "4",
+    "disk_size": "40000",
+    "headless": "false",
+    "memory": "2048",
+    "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
+    "ssh_timeout": "60m"
+  },
   "builders": [{
     "type": "virtualbox-iso",
     "guest_os_type": "Fedora_64",
@@ -41,14 +56,16 @@
     "type": "vagrant",
     "compression_level": "{{user `compression_level`}}",
     "output": "fedora-workstation-24-x86_64.box"
-  }],
-  "variables": {
-    "compression_level": "6",
-    "cpus": "1",
-    "disk_size": "40000",
-    "headless": "false",
-    "memory": "512",
-    "mirror": "http://download.fedoraproject.org/pub/fedora/linux",
-    "ssh_timeout": "60m"
-  }
+  },
+  {
+    "type": "vagrant-s3",
+    "region": "eu-west-1",
+    "bucket": "{{ user `s3bucket` }}",
+    "manifest": "vagrant/json/{{ user `box_organization` }}/{{ user `box_name` }}.json",
+    "box_dir": "vagrant/boxes/{{ user `box_organization` }}/{{ user `box_name` }}",
+    "box_name": "{{ user `box_organization` }}{{ user `box_name` }}",
+    "version": "{{ user `version` }}",
+    "access_key_id": "{{ user `aws_access_key_id` }}",
+    "secret_key": "{{ user `aws_secret_access_key` }}"
+  }]
 }
